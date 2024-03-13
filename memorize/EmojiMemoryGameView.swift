@@ -9,16 +9,11 @@ import SwiftUI
 
 struct EmojiMemoryGameView: View {
     @ObservedObject var viewModel: EmojiMemoryGame
-    
-
-    
-    
     var cards: some View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 85, maximum: 120))]){
-            ForEach(viewModel.cards.indices, id: \.self){
-                index in CardView(viewModel.cards[index])
+            ForEach(viewModel.cards){
+                card in CardView(card)
                     .aspectRatio(2/3, contentMode: .fit)
-                
             }
         }
         .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
@@ -31,6 +26,7 @@ struct EmojiMemoryGameView: View {
         VStack{
             ScrollView {
                 cards
+                    .animation(.default, value: viewModel.cards)
             }
             Button ("Shuffle"){
                 viewModel.shuffleCard()
