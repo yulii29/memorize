@@ -10,10 +10,10 @@ import SwiftUI
 
 
 class EmojiMemoryGame: ObservableObject {
-    private static let emojis = ["🌚", "🌜", "🌓", "🌝", "🌪️", "☃️"]
+    private static let emojis = ["🌚", "🌜", "🌓", "🌝", "🌪️", "☃️", "💨"]
     
     private static func createMemoryGame() -> MemoryGame<String> {
-        return MemoryGame(numberOfPairs: 4,
+        return MemoryGame(numberOfPairs: 6,
                           cardContentFacrory: {
             index in if emojis.indices.contains(index){
                 return emojis[index]

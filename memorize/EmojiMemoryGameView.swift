@@ -14,6 +14,9 @@ struct EmojiMemoryGameView: View {
             ForEach(viewModel.cards){
                 card in CardView(card)
                     .aspectRatio(2/3, contentMode: .fit)
+                    .onTapGesture {
+                        viewModel.choose(card)
+                    }
             }
         }
         .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
@@ -58,9 +61,11 @@ struct CardView: View {
                Text(card.content).font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
             }
            .opacity(card.isFaceUp ? 1 : 0)
-            base.fill().opacity(card.isFaceUp ? 0 : 1)
+            base.fill()
+           .opacity(card.isFaceUp ? 0 : 1)
             
         }
+        .opacity(card.isFaceUp || !card.isMatched ? 1 : 0)
         
     }
 }
