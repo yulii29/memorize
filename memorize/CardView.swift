@@ -34,12 +34,20 @@ struct CardView: View {
                     .font(.system(size: Constants.FontSize.largest))
                     .minimumScaleFactor(Constants.FontSize.scaleFactor)
                     .padding(5)
+                    .rotationEffect(.degrees(card.isMatched ? 360 : 0))
+                    .animation(.spin(duration: 1), value: card.isMatched)
             )
         
             .padding(Constants.inset)
             .modifier(Cardify(isFaceUp: card.isFaceUp))
             .opacity(card.isFaceUp || !card.isMatched ? 1 : 0)
         
+    }
+}
+
+extension Animation {
+    static func spin(duration: TimeInterval) -> Animation {
+        .linear(duration: 1).repeatForever(autoreverses: false)
     }
 }
     
