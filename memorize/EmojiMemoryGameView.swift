@@ -45,18 +45,23 @@ struct EmojiMemoryGameView: View {
         AspectVGridView( viewModel.cards) {
                     card in CardView(card)
                         .padding(spacing)
-                        .overlay(FlyingNumber(number: scoreChange(cousedBy: card)))
+                        .overlay(FlyingNumber(number: scoreChange(causedBy: card)))
                         .onTapGesture {
                             withAnimation {
+                                let scoreBeforeChoosing = viewModel.score
                                 viewModel.choose(card)
+                                let scoreChange = viewModel.score - scoreBeforeChoosing
+                                lastScoreChange = (scoreChange, causedByCardId: card.id)
                             }
                     }
             }
         .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
             
      }
-    private func scoreChange(cousedBy card: Card) -> Int {
-        return 0
+    @State private var lastScoreChange = ( 0, causedByCardId: "")
+    private func scoreChange(causedBy card: Card) -> Int {
+        let (amount, id) = lastScoreChange
+        return card.id == id ? amount : 0
     }
  }
 
