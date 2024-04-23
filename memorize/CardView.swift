@@ -28,14 +28,20 @@ struct CardView: View {
     
     var body: some View {
         TimelineView(.animation) { timeline in
-            Pie(endAngle: .degrees(card.bonusPercentReimaining * 360))
-                .opacity(0.5)
-                .overlay(cardContent.padding(5))
-                .padding(Constants.inset)
-                .modifier(Cardify(isFaceUp: card.isFaceUp))
-                .opacity(card.isFaceUp || !card.isMatched ? 1 : 0)
+            if card.isFaceUp || !card.isMatched {
+                Pie(endAngle: .degrees(card.bonusPercentReimaining * 360))
+                    .opacity(0.5)
+                    .overlay(cardContent.padding(5))
+                    .padding(Constants.inset)
+                    .modifier(Cardify(isFaceUp: card.isFaceUp))
+                    .transition(.scale)
+            } else {
+                Color.clear
+            }
+                
         }
     }
+    
     var cardContent: some View {
         Text(card.content)
             .font(.system(size: Constants.FontSize.largest))
