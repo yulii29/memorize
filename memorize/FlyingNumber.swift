@@ -24,7 +24,9 @@ struct FlyingNumber: View {
                         offset = number < 0 ? 200 : -200
                     }
                 }
-                
+                .onDisappear {
+                    offset = 0
+                }
         }
         
     }

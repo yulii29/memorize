@@ -27,23 +27,25 @@ struct CardView: View {
     }
     
     var body: some View {
-        Pie(endAngle: .degrees(240))
-            .opacity(0.5)
-            .overlay(
-                Text(card.content)
-                    .font(.system(size: Constants.FontSize.largest))
-                    .minimumScaleFactor(Constants.FontSize.scaleFactor)
-                    .padding(5)
-                    .rotationEffect(.degrees(card.isMatched ? 360 : 0))
-                    .animation(.spin(duration: 1), value: card.isMatched)
-            )
-        
-            .padding(Constants.inset)
-            .modifier(Cardify(isFaceUp: card.isFaceUp))
-            .opacity(card.isFaceUp || !card.isMatched ? 1 : 0)
-        
+        TimelineView(.animation) { timeline in
+            Pie(endAngle: .degrees(card.bonusPercentReimaining * 360))
+                .opacity(0.5)
+                .overlay(cardContent.padding(5))
+                .padding(Constants.inset)
+                .modifier(Cardify(isFaceUp: card.isFaceUp))
+                .opacity(card.isFaceUp || !card.isMatched ? 1 : 0)
+        }
+    }
+    var cardContent: some View {
+        Text(card.content)
+            .font(.system(size: Constants.FontSize.largest))
+            .minimumScaleFactor(Constants.FontSize.scaleFactor)
+            .rotationEffect(.degrees(card.isMatched ? 360 : 0))
+            .animation(.spin(duration: 1), value: card.isMatched)
     }
 }
+
+
 
 extension Animation {
     static func spin(duration: TimeInterval) -> Animation {
